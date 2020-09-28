@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script type="text/javascript" src="./libs/util.js"></script>
+    <script type="text/javascript" src="./libs/bspline.js"></script>
+    <script type="text/javascript" src="./libs/bspline2.js"></script>
+    <script type="text/javascript" src="./libs/raphael.js"></script>
+    <script type="text/javascript" src="./libs/treemap-squared.js"></script>
+    <script type="text/javascript" src="./libs/treemap-raphael.js"></script>
+    <script type="text/javascript" src="./libs/GL_util.js"></script>
+    <script type="text/javascript" src="./js/shaders.js"></script>
+    <script type="text/javascript" src="./js/app.js"></script>
+    <title>Document</title>
+    <style>
+        #canvas {
+            position: absolute;
+            left: 0px;
+            width: 600px;
+            height: 600px;
+            box-shadow: 2px 5px 10px #ddd;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script type="text/javascript">
+    var dataHandler = new DataHandler();
+    dataHandler.addData('1.2.3');
+    dataHandler.addData('1.2.4');
+    dataHandler.addData('1.2.5');
+    dataHandler.addData('1.6', 200);
+    dataHandler.addData('1.7', 200);
+    dataHandler.generateLayout();
+    var nodes = dataHandler.nodes;
+    for (var i = 0; i < nodes.length; i++) {
+        for (var j = i; j < nodes.length; j++) {
+            dataHandler.addPath(nodes[i].id, nodes[j].id);
+        }
+    }
+    var drawer = new Drawer();
+    drawer.draw({
+        points: dataHandler.getAllNodes(),
+        splines: dataHandler.getAllPaths(),
+        boxs: dataHandler.layout.getAllBoxs()
+    });
+</script>
+</body>
+</html>
